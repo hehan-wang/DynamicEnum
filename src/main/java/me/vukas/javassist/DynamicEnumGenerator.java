@@ -10,20 +10,19 @@ public class DynamicEnumGenerator {
         generator.makeDynamic("me.vukas.enumeration.DynamicEnum", "./target/classes/");
     }
 
-    public void makeDynamic(String className, String targetDirectory) throws NotFoundException, CannotCompileException, IOException {
+    public CtClass makeDynamic(String className, String targetDirectory) throws NotFoundException, CannotCompileException, IOException {
         ClassPool classPool = ClassPool.getDefault();
         CtClass ctClass = classPool.get(className);
-        makeDynamic(ctClass, targetDirectory, classPool, className);
+        return makeDynamic(ctClass, targetDirectory, classPool, className);
     }
 
-    public void makeDynamic(CtClass ctClass, String targetDirectory) throws NotFoundException, CannotCompileException, IOException {
+    public CtClass makeDynamic(CtClass ctClass, String targetDirectory) throws NotFoundException, CannotCompileException, IOException {
         ClassPool classPool = ClassPool.getDefault();
         String className = ctClass.getName();
-
-        makeDynamic(ctClass, targetDirectory, classPool, className);
+        return makeDynamic(ctClass, targetDirectory, classPool, className);
     }
 
-    private void makeDynamic(CtClass ctClass, String targetDirectory, ClassPool classPool, String className) throws NotFoundException, CannotCompileException, IOException {
+    private CtClass makeDynamic(CtClass ctClass, String targetDirectory, ClassPool classPool, String className) throws NotFoundException, CannotCompileException, IOException {
         int hardcodedEnumsCount = 0;
         for (CtField ctField : ctClass.getFields()) {
             if (ctField.getType().equals(ctClass)) {
@@ -153,5 +152,6 @@ public class DynamicEnumGenerator {
         }
         ctClass.writeFile(targetDirectory);
         ctClass.defrost();
+        return ctClass;
     }
 }
