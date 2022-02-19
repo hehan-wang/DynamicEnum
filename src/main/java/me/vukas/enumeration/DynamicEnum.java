@@ -1,5 +1,8 @@
 package me.vukas.enumeration;
 
+import me.vukas.anno.DEnum;
+
+@DEnum
 public enum DynamicEnum {
     ONE(1, "one"),
     TWO(2, "two"),

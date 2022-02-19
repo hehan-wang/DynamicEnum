@@ -3,6 +3,7 @@ package me.vukas.trans;
 import javassist.CtClass;
 import javassist.build.IClassTransformer;
 import javassist.build.JavassistBuildException;
+import me.vukas.anno.DEnum;
 import me.vukas.javassist.DynamicEnumGenerator;
 
 /**
@@ -23,11 +24,10 @@ public class DynamicEnumTransformer implements IClassTransformer {
 
     @Override
     public boolean shouldTransform(CtClass candidateClass) throws JavassistBuildException {
-        boolean equals = candidateClass.getName().equals("me.vukas.enumeration.DynamicEnum");
-        if (equals) {
-            candidateClass.defrost();
-        }
-        System.out.println(candidateClass.getName() + ":" + equals);
-        return equals;
+        boolean check = false;
+        check = candidateClass.hasAnnotation(DEnum.class);
+        System.out.println(candidateClass.getName() + ":" + check);
+        return check;
     }
+
 }
