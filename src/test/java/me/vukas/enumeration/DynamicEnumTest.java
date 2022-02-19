@@ -5,9 +5,9 @@ import org.junit.Test;
 public class DynamicEnumTest {
 
     @Test
-    public void DemoEnumUsage(){
+    public void DemoEnumUsage() {
         System.out.println("==DEMO ENUM TEST ==");
-        for(DynamicEnum dynamicEnum : DynamicEnum.values()){
+        for (DynamicEnum dynamicEnum : DynamicEnum.values()) {
             System.out.println("Name: " + dynamicEnum.name() + "; Id:" + dynamicEnum.getId() + "; AlternativeName: " + dynamicEnum.getAlternativeName() + "; Ordinal: " + dynamicEnum.ordinal());
         }
 
@@ -18,7 +18,7 @@ public class DynamicEnumTest {
         DynamicEnum.add("SIX", 6, "six");
 
         System.out.println("Values after update:");
-        for(DynamicEnum dynamicEnum : DynamicEnum.values()){
+        for (DynamicEnum dynamicEnum : DynamicEnum.values()) {
             System.out.println("Name: " + dynamicEnum.name() + "; Id:" + dynamicEnum.getId() + "; AlternativeName: " + dynamicEnum.getAlternativeName() + "; Ordinal: " + dynamicEnum.ordinal());
         }
 
@@ -27,7 +27,7 @@ public class DynamicEnumTest {
         DynamicEnum.remove("FIVE");
 
         System.out.println("Values after removal of enum 5 (Six got new ordinal):");
-        for(DynamicEnum dynamicEnum : DynamicEnum.values()){
+        for (DynamicEnum dynamicEnum : DynamicEnum.values()) {
             System.out.println("Name: " + dynamicEnum.name() + "; Id:" + dynamicEnum.getId() + "; AlternativeName: " + dynamicEnum.getAlternativeName() + "; Ordinal: " + dynamicEnum.ordinal());
         }
 
@@ -37,7 +37,7 @@ public class DynamicEnumTest {
         DynamicEnum.add("TEN", 10, "ten");
 
         System.out.println("Values after update:");
-        for(DynamicEnum dynamicEnum : DynamicEnum.values()){
+        for (DynamicEnum dynamicEnum : DynamicEnum.values()) {
             System.out.println("Name: " + dynamicEnum.name() + "; Id:" + dynamicEnum.getId() + "; AlternativeName: " + dynamicEnum.getAlternativeName() + "; Ordinal: " + dynamicEnum.ordinal());
         }
 
@@ -47,7 +47,7 @@ public class DynamicEnumTest {
         DynamicEnum.remove("SIX");
 
         System.out.println("Values after update:");
-        for(DynamicEnum dynamicEnum : DynamicEnum.values()){
+        for (DynamicEnum dynamicEnum : DynamicEnum.values()) {
             System.out.println("Name: " + dynamicEnum.name() + "; Id:" + dynamicEnum.getId() + "; AlternativeName: " + dynamicEnum.getAlternativeName() + "; Ordinal: " + dynamicEnum.ordinal());
         }
     }
