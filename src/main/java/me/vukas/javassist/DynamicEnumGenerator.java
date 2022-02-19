@@ -13,7 +13,17 @@ public class DynamicEnumGenerator {
     public void makeDynamic(String className, String targetDirectory) throws NotFoundException, CannotCompileException, IOException {
         ClassPool classPool = ClassPool.getDefault();
         CtClass ctClass = classPool.get(className);
+        makeDynamic(ctClass, targetDirectory, classPool, className);
+    }
 
+    public void makeDynamic(CtClass ctClass, String targetDirectory) throws NotFoundException, CannotCompileException, IOException {
+        ClassPool classPool = ClassPool.getDefault();
+        String className = ctClass.getName();
+
+        makeDynamic(ctClass, targetDirectory, classPool, className);
+    }
+
+    private void makeDynamic(CtClass ctClass, String targetDirectory, ClassPool classPool, String className) throws NotFoundException, CannotCompileException, IOException {
         int hardcodedEnumsCount = 0;
         for (CtField ctField : ctClass.getFields()) {
             if (ctField.getType().equals(ctClass)) {
@@ -35,6 +45,7 @@ public class DynamicEnumGenerator {
         ctEmbeddedClass.addConstructor(ctc12);
         ctEmbeddedClass.toClass();
         ctEmbeddedClass.writeFile(targetDirectory);
+        ctEmbeddedClass.defrost();
 
         CtClass ctBasicConstructorClass = ctClass.makeNestedClass("BasicConstructor", true);
         CtConstructor ctConstructor = new CtConstructor(null, ctBasicConstructorClass);
@@ -45,7 +56,7 @@ public class DynamicEnumGenerator {
         ctBasicConstructorClass.addField(ctOrdinalField);
         ctBasicConstructorClass.toClass();
         ctBasicConstructorClass.writeFile(targetDirectory);
-
+        ctBasicConstructorClass.defrost();
         for (CtMethod method : ctClass.getDeclaredMethods()) {
             if (method.getName().equals("add")
                     && method.getReturnType().getName().equals("boolean")
@@ -103,7 +114,7 @@ public class DynamicEnumGenerator {
 
                 constructorClass.toClass();
                 constructorClass.writeFile(targetDirectory);
-
+                constructorClass.defrost();
                 StringBuilder methodBody = new StringBuilder("{ for(int i=0; i<$VALUES.length; i++){ if($VALUES[i].name().equals($1)){ return false; }} int currentNumOfEnums = $VALUES.length; %1$s[] temp = new %1$s[currentNumOfEnums + 1]; System.arraycopy($VALUES, 0, temp, 0, currentNumOfEnums); $CONSTRUCTORS.put($1, new ");
                 methodBody.append(className);
                 methodBody.append(".Embedded(new ");
@@ -141,5 +152,6 @@ public class DynamicEnumGenerator {
             }
         }
         ctClass.writeFile(targetDirectory);
+        ctClass.defrost();
     }
 }
