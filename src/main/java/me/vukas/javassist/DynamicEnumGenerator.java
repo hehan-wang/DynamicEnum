@@ -77,13 +77,13 @@ public class DynamicEnumGenerator {
                 StringBuilder constructorBody = new StringBuilder();
                 constructorBody.append("{ this.name=$1; this.ordinal=$2; ");
 
-                for (int i = 2; i <= method.getParameterTypes().length; i++) {
-                    constructorTypes[i] = method.getParameterTypes()[i - 1];
-                    constructorClass.addField(new CtField(constructorTypes[i], "param" + i, constructorClass));
+                for (int i1 = 2; i1 <= method.getParameterTypes().length; i1++) {
+                    constructorTypes[i1] = method.getParameterTypes()[i1 - 1];
+                    constructorClass.addField(new CtField(constructorTypes[i1], "param" + i1, constructorClass));
                     constructorBody.append("this.param");
-                    constructorBody.append(i);
+                    constructorBody.append(i1);
                     constructorBody.append("=$");
-                    constructorBody.append(i + 1);
+                    constructorBody.append(i1 + 1);
                     constructorBody.append("; ");
                 }
                 constructorBody.append("} ");
@@ -102,9 +102,9 @@ public class DynamicEnumGenerator {
                 callableBody.append(className);
                 callableBody.append("(name,ordinal");
 
-                for (int i = 2; i <= method.getParameterTypes().length; i++) {
+                for (int i1 = 2; i1 <= method.getParameterTypes().length; i1++) {
                     callableBody.append(",param");
-                    callableBody.append(i);
+                    callableBody.append(i1);
                 }
                 callableBody.append(");}");
 
@@ -137,7 +137,7 @@ public class DynamicEnumGenerator {
 
                 method.setBody(String.format(methodBody.toString(), className));
 
-                constructorsCount++;
+//                constructorsCount++;
             }
 
             if (method.getName().equals("remove")
@@ -148,6 +148,38 @@ public class DynamicEnumGenerator {
                     && method.getParameterTypes()[0].getName().equals("java.lang.String")
             ) {
                 method.setBody(String.format("{ for(int i=0; i<$VALUES.length; i++){ if($VALUES[i].name().equals($1)){ if(i < %1$s.$SIZE){ return false; } int currentNumOfEnums = $VALUES.length; %1$s[] temp = new %1$s[currentNumOfEnums - 1]; System.arraycopy($VALUES, 0, temp, 0, i); System.arraycopy($VALUES, i+1, temp, i, currentNumOfEnums-i-1); $CONSTRUCTORS.remove($VALUES[i].name()); for(int j=i; j<currentNumOfEnums-1; j++){ try { ((" + className + ".BasicConstructor)((" + className + ".Embedded)$CONSTRUCTORS.get(temp[j].name())).kon).ordinal = j; temp[j] = (((" + className + ".Embedded)$CONSTRUCTORS.get(temp[j].name())).kon).call(); } catch (Exception e) { e.printStackTrace(); } } $VALUES = temp; return true; } } return false; }", className));
+            }
+        }
+        for (CtMethod method : ctClass.getDeclaredMethods()) {
+            if (method.getName().equals("update")
+                    && method.getReturnType().getName().equals("boolean")
+                    && Modifier.isStatic(method.getModifiers())
+                    && Modifier.isPublic(method.getModifiers())
+                    && method.getParameterTypes().length > 0
+                    && method.getParameterTypes()[0].getName().equals("java.lang.String")
+            ) {
+                StringBuilder methodBody = new StringBuilder("{ int currentNumOfEnums =-1; for(int i=0; i<$VALUES.length; i++){ if($VALUES[i].name().equals($1)){ currentNumOfEnums=i;break; }} if(currentNumOfEnums<0)return false;  $CONSTRUCTORS.put($1, new ");
+                methodBody.append(className);
+                methodBody.append(".Embedded(new ");
+                methodBody.append(className);
+                methodBody.append(".Constructor");
+                methodBody.append(constructorsCount);
+                methodBody.append("($1, currentNumOfEnums");
+
+                for (int i = 2; i <= method.getParameterTypes().length; i++) {
+                    methodBody.append(", $");
+                    methodBody.append(i);
+                }
+
+                methodBody.append("))); try { $VALUES[currentNumOfEnums] = ((");
+                methodBody.append(className);
+                methodBody.append(".Constructor");
+                methodBody.append(constructorsCount);
+                methodBody.append(")((");
+                methodBody.append(className);
+                methodBody.append(".Embedded)$CONSTRUCTORS.get($1)).kon).call(); } catch (Exception e) { e.printStackTrace(); } return true;}");
+
+                method.setBody(String.format(methodBody.toString(), className));
             }
         }
         ctClass.writeFile(targetDirectory);
