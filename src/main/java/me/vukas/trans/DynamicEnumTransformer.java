@@ -7,7 +7,7 @@ import me.vukas.anno.DEnum;
 import me.vukas.javassist.DynamicEnumGenerator;
 
 /**
- * compile target class in maven.
+ * compile class with {@link DEnum} in maven compile stage.
  *
  * @author david
  * @since 2022/2/19

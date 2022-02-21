@@ -5,6 +5,12 @@ import me.vukas.utils.DynamicEnumUtils;
 
 import java.io.IOException;
 
+/**
+ * use javassit to manipulate add/remove/update methods of enum.
+ *
+ * @author david
+ * @since 2022/2/21
+ */
 public class DynamicEnumGenerator {
     public static void main(String[] args) throws NotFoundException, CannotCompileException, IOException {
         DynamicEnumGenerator generator = new DynamicEnumGenerator();

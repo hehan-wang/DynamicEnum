@@ -2,6 +2,12 @@ package me.vukas.enumeration;
 
 import me.vukas.anno.DEnum;
 
+/**
+ * demo enum.
+ *
+ * @author david
+ * @since 2022/2/21
+ */
 @DEnum
 public enum DynamicEnum {
     ONE(1, "one"),

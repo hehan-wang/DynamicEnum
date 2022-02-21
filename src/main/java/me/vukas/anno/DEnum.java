@@ -4,7 +4,8 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 
 /**
- * 标注为动态注解
+ * mark dynamic enum.
+ *
  * @author david
  * @since 2022/2/20
  */
