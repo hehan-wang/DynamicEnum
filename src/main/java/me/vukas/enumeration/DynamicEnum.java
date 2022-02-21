@@ -3,7 +3,7 @@ package me.vukas.enumeration;
 import me.vukas.anno.DEnum;
 
 /**
- * demo enum.
+ * demo  enum.
  *
  * @author david
  * @since 2022/2/21
