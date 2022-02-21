@@ -1,10 +1,10 @@
-package me.vukas.trans;
+package com.david.trans;
 
+import com.david.javassist.DynamicEnumGenerator;
 import javassist.CtClass;
 import javassist.build.IClassTransformer;
 import javassist.build.JavassistBuildException;
-import me.vukas.anno.DEnum;
-import me.vukas.javassist.DynamicEnumGenerator;
+import com.david.anno.DEnum;
 
 /**
  * compile class with {@link DEnum} in maven compile stage.

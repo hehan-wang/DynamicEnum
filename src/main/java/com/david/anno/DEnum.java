@@ -1,4 +1,4 @@
-package me.vukas.anno;
+package com.david.anno;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;

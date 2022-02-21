@@ -1,7 +1,7 @@
-package me.vukas.javassist;
+package com.david.javassist;
 
 import javassist.*;
-import me.vukas.utils.DynamicEnumUtils;
+import com.david.utils.DynamicEnumUtils;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ import java.io.IOException;
 public class DynamicEnumGenerator {
     public static void main(String[] args) throws NotFoundException, CannotCompileException, IOException {
         DynamicEnumGenerator generator = new DynamicEnumGenerator();
-        generator.makeDynamic("me.vukas.enumeration.DynamicEnum", "./target/classes/");
+        generator.makeDynamic("com.david.enumeration.DynamicEnum", "./target/classes/");
     }
 
     public CtClass makeDynamic(String className, String targetDirectory) throws NotFoundException, CannotCompileException, IOException {

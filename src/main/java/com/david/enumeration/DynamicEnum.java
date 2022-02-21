@@ -1,6 +1,6 @@
-package me.vukas.enumeration;
+package com.david.enumeration;
 
-import me.vukas.anno.DEnum;
+import com.david.anno.DEnum;
 
 /**
  * demo  enum.

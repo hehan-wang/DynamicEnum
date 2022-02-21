@@ -1,4 +1,4 @@
-package me.vukas.utils;
+package com.david.utils;
 
 import sun.reflect.ConstructorAccessor;
 import sun.reflect.FieldAccessor;

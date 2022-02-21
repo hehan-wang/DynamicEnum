@@ -60,7 +60,7 @@
                     <includeTestClasses>false</includeTestClasses>
                     <transformerClasses>
                         <transformerClass>
-                            <className>me.vukas.trans.DynamicEnumTransformer</className>
+                            <className>com.david.trans.DynamicEnumTransformer</className>
                         </transformerClass>
                     </transformerClasses>
                 </configuration>

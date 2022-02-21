@@ -1,4 +1,4 @@
-package me.vukas.enumeration;
+package com.david.enumeration;
 
 import org.junit.Assert;
 import org.junit.Test;
