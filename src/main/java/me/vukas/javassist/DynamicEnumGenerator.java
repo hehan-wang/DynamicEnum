@@ -1,6 +1,7 @@
 package me.vukas.javassist;
 
 import javassist.*;
+import me.vukas.utils.DynamicEnumUtils;
 
 import java.io.IOException;
 
@@ -136,6 +137,7 @@ public class DynamicEnumGenerator {
                 methodBody.append(".Embedded)$CONSTRUCTORS.get($1)).kon).call(); } catch (Exception e) { e.printStackTrace(); } $VALUES = temp; return true;}");
 
                 method.setBody(String.format(methodBody.toString(), className));
+                insertClearEnumCache(className, method);
 
 //                constructorsCount++;
             }
@@ -148,6 +150,7 @@ public class DynamicEnumGenerator {
                     && method.getParameterTypes()[0].getName().equals("java.lang.String")
             ) {
                 method.setBody(String.format("{ for(int i=0; i<$VALUES.length; i++){ if($VALUES[i].name().equals($1)){ if(i < %1$s.$SIZE){ return false; } int currentNumOfEnums = $VALUES.length; %1$s[] temp = new %1$s[currentNumOfEnums - 1]; System.arraycopy($VALUES, 0, temp, 0, i); System.arraycopy($VALUES, i+1, temp, i, currentNumOfEnums-i-1); $CONSTRUCTORS.remove($VALUES[i].name()); for(int j=i; j<currentNumOfEnums-1; j++){ try { ((" + className + ".BasicConstructor)((" + className + ".Embedded)$CONSTRUCTORS.get(temp[j].name())).kon).ordinal = j; temp[j] = (((" + className + ".Embedded)$CONSTRUCTORS.get(temp[j].name())).kon).call(); } catch (Exception e) { e.printStackTrace(); } } $VALUES = temp; return true; } } return false; }", className));
+                insertClearEnumCache(className, method);
             }
         }
         for (CtMethod method : ctClass.getDeclaredMethods()) {
@@ -180,10 +183,15 @@ public class DynamicEnumGenerator {
                 methodBody.append(".Embedded)$CONSTRUCTORS.get($1)).kon).call(); } catch (Exception e) { e.printStackTrace(); } return true;}");
 
                 method.setBody(String.format(methodBody.toString(), className));
+                insertClearEnumCache(className, method);
             }
         }
         ctClass.writeFile(targetDirectory);
         ctClass.defrost();
         return ctClass;
+    }
+
+    private void insertClearEnumCache(String className, CtMethod method) throws CannotCompileException {
+        method.insertAfter(String.format("%s.cleanEnumCache(%s.class);", DynamicEnumUtils.class.getName(), className));
     }
 }

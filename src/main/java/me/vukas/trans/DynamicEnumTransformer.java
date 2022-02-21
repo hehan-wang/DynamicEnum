@@ -7,6 +7,8 @@ import me.vukas.anno.DEnum;
 import me.vukas.javassist.DynamicEnumGenerator;
 
 /**
+ * compile target class in maven.
+ *
  * @author david
  * @since 2022/2/19
  */

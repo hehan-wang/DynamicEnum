@@ -10,8 +10,10 @@ public class DynamicEnumTest {
         System.out.println("==DEMO ENUM TEST1 ==");
         System.out.println(Arrays.toString(DynamicEnum.values()));
         DynamicEnum.add("FOUR", 4, "444");
+        System.out.println(Enum.valueOf(DynamicEnum.class, "FOUR").getAlternativeName());
         System.out.println(Arrays.toString(DynamicEnum.values()));
         DynamicEnum.remove("FOUR");
+        System.out.println(Enum.valueOf(DynamicEnum.class, "FOUR").getAlternativeName());
         System.out.println(Arrays.toString(DynamicEnum.values()));
         DynamicEnum.update("ONE", -1, "-111");
         System.out.println(Enum.valueOf(DynamicEnum.class, "ONE").getAlternativeName());
