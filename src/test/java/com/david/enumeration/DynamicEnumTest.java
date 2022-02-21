@@ -1,13 +1,15 @@
 package com.david.enumeration;
 
+import com.david.utils.DynamicEnumUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 
 public class DynamicEnumTest {
     @Test
-    public void DemoEnumUsage() {
+    public void DemoEnumUsage() throws NoSuchFieldException, IllegalAccessException {
         System.out.println("==DEMO ENUM TEST ==");
         Assert.assertEquals("[ONE, TWO, THREE]", Arrays.toString(DynamicEnum.values()));
         //add
@@ -31,6 +33,7 @@ public class DynamicEnumTest {
         Assert.assertEquals("updated one", DynamicEnum.valueOf("ONE").getAlternativeName());
         Assert.assertEquals("updated one", Enum.valueOf(DynamicEnum.class, "ONE").getAlternativeName());
         Assert.assertEquals("updated one", DynamicEnum.values()[0].getAlternativeName());
+        Assert.assertEquals("updated one", DynamicEnum.ONE.getAlternativeName());
         System.out.println("==DEMO ENUM TEST END ==");
     }
 

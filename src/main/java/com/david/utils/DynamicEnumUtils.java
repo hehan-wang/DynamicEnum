@@ -28,14 +28,7 @@ public class DynamicEnumUtils {
             throw new RuntimeException("class " + enumType + " is not an instance of Enum");
         }
         // 1. Lookup "$VALUES" holder in enum class and get previous enum instances
-        Field valuesField = null;
-        Field[] fields = enumType.getDeclaredFields();
-        for (Field field : fields) {
-            if (field.getName().contains("$VALUES")) {
-                valuesField = field;
-                break;
-            }
-        }
+        Field valuesField = lookupField(enumType, "$VALUES");
         AccessibleObject.setAccessible(new Field[]{valuesField}, true);
 
         try {
@@ -65,6 +58,18 @@ public class DynamicEnumUtils {
         }
     }
 
+    public static <T extends Enum<?>> Field lookupField(Class<T> enumType, String fieldName) {
+        Field valuesField = null;
+        Field[] fields = enumType.getDeclaredFields();
+        for (Field field : fields) {
+            if (field.getName().contains(fieldName)) {
+                valuesField = field;
+                break;
+            }
+        }
+        return valuesField;
+    }
+
     private static Object makeEnum(Class<?> enumClass, String value, int ordinal, Class<?>[] additionalTypes, Object[] additionalValues) throws Exception {
         Object[] parms = new Object[additionalValues.length + 2];
         parms[0] = value;
@@ -92,7 +97,7 @@ public class DynamicEnumUtils {
         }
     }
 
-    private static void setFailsafeFieldValue(Field field, Object target, Object value) throws NoSuchFieldException, IllegalAccessException {
+    public static void setFailsafeFieldValue(Field field, Object target, Object value) throws NoSuchFieldException, IllegalAccessException {
 
         // let's make the field accessible
         field.setAccessible(true);

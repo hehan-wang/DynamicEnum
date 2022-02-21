@@ -186,8 +186,12 @@ public class DynamicEnumGenerator {
                 methodBody.append(constructorsCount);
                 methodBody.append(")((");
                 methodBody.append(className);
-                methodBody.append(".Embedded)$CONSTRUCTORS.get($1)).kon).call(); } catch (Exception e) { e.printStackTrace(); } return true;}");
+                methodBody.append(".Embedded)$CONSTRUCTORS.get($1)).kon).call(); } catch (Exception e) { e.printStackTrace(); } ");
 
+                String utilClassName = DynamicEnumUtils.class.getName();
+                methodBody.append(String.format("%s.setFailsafeFieldValue(%s.lookupField(%s.class, $1), %s.class, $VALUES[currentNumOfEnums]);",
+                        utilClassName, utilClassName, className, className));
+                methodBody.append("return true;}");
                 method.setBody(String.format(methodBody.toString(), className));
                 insertClearEnumCache(className, method);
             }
