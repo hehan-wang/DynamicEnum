@@ -8,6 +8,9 @@
     <artifactId>dynamic-enum</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
     <dependencies>
 <!--        <dependency>-->
 <!--            <groupId>de.icongmbh.oss.maven.plugins</groupId>-->
@@ -39,6 +42,16 @@
     </dependencies>
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                    <compilerArgument>-parameters</compilerArgument>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>de.icongmbh.oss.maven.plugins</groupId>
                 <artifactId>javassist-maven-plugin</artifactId>
